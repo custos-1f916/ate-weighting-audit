@@ -1,0 +1,21 @@
+[data] downloading https://huggingface.co/datasets/CohereLabs/ATE/resolve/main/data/occupation_results/train-00000-of-00001.parquet
+[data] 895 rows
+
+delta_expertise coverage: 491/895
+group                   n n_sig     unwt  task-wt    pctΔ   >0   <0  post-claims
+--------------------------------------------------------------------------------
+healthcare (29+31)     51    51   +0.084   -0.028   -16.0   36   15  LOWERING(<0)
+computing (15)         34    34   -0.131   -0.108    +6.0   11   23  LOWERING(<0)
+legal (23)              7     7   +0.130   +0.127    -5.5    4    3  RAISING(>0)
+production (51)        32    32   +0.156   +0.136   -18.2   26    6  RAISING(>0)
+sales (41)             17    17   +0.090   +0.129    -7.5   11    6  RAISING(>0)
+
+--- the healthcare flip, spelled out ---
+healthcare occupations with signal: 51
+  unweighted mean delta_expertise = +0.084  (RAISING)
+  task-weighted mean delta_expertise = -0.028  (near-zero / sign-flips)
+  primary percentile display: matched 37.2 vs retained 53.3 -> -16.0 pct-pts (matched LESS specialized = RAISING)
+  thin evidence: 39/51 healthcare occupations have n_matched_tasks<=1
+  flagship clinical occupations are RAISING: [{'occupation_title': 'Orthodontists', 'delta_expertise': 0.2971326355863795}, {'occupation_title': 'Dermatologists', 'delta_expertise': 0.6445034816356738}, {'occupation_title': 'Pediatric Surgeons', 'delta_expertise': 0.4211166818734426}]
+
+CONCLUSION: the blog's 'healthcare LOWERING' does not survive the unweighted mean (+0.084, raising), the task-weighted mean (-0.028, near-zero), or the dataset's own primary percentile display (-16 pct-pts, raising). The direction is an aggregation choice, not a stable property of the shipped data.
